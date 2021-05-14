@@ -1,7 +1,7 @@
 pipeline {
   environment {
-    registry = "nelrajan/jenkinsdocker" # (the docker hub username and repo name.)
-    registryCredential = 'dockerhub' # (the credential id name shoudl be entered)
+    registry = "nelrajan/jenkinsdocker"  //#(the docker hub username and repo name.)
+    registryCredential = 'dockerhub'  //#(the credential id name shoudl be entered)
     dockerImage = ''
   }
   agent any
@@ -14,7 +14,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER" #(will create a docker image from Dockerfile stored in the git repo)
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"   //#(will create a docker image from Dockerfile stored in the git repo)
         }
       }
     }
