@@ -1,0 +1,22 @@
+# SSH Login procedure
+
+# command to generate public and private key
+ - ssh-keygen 
+
+# copy the public key to remote machine using the below command. The below command will copy the public key to remote machine's /home/user/.ssh/authorize_keys
+ - ssh-copy-id -i ~/.ssh/id_rsa.pub user@hostname(or IP) 
+ 
+ # restart the ssh service
+  - sudo systemctl restart ssh
+  
+# The first login will ask for a password for the user. (do create the password and user in the remote machie)
+# If the password is not prompted then edit the variable within the file sshd_config
+
+- sudo vi /etc/ssh/sshd_config
+   - PasswordAuthentication yes (by default it will be no)
+   
+  
+ 
+ # if we want to login with the key directly use the below command:
+  - ssh -i <pub_key.pem> user@hostname(or IP) 
+ 
