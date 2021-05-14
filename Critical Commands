@@ -1,0 +1,3 @@
+# If we are getting the error as follows when we try to login on docker hub - Error saving credentials: error storing credentials - err: exit status 1, out: `Cannot autolaunch D-Bus without X11 $DISPLAY`
+use the below command:
+- sudo apt remove golang-docker-credential-helpers
