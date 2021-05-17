@@ -1,0 +1,29 @@
+# setting up Linux ubuntu server for minikube
+
+   sudo apt update -y
+
+   sudo apt upgrade -y
+
+   sudo apt install curl
+
+   sudo apt install apt-transport-https
+
+# create a virtual machine using virtualbox using the below cmd. 
+# (on options prompted - press tab and hit enter - to accept the license)
+# for using minikube we need virtual machine 
+
+   sudo apt install virtualbox virtualbox-ext-pack -y 
+   
+# now we will install minikube.
+# we need libraries from google before installation
+
+  wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+
+# now copy the binaries downloaded above to /usr/local/bin/minikube
+  sudo cp minikube-linux-amd64 /usr/local/bin/minikube
+
+# now we give permission to the binary for read write access
+  sudo chmod 755 /usr/local/bin/minikube
+
+# to check if the minikube is installed:
+  minikube version
