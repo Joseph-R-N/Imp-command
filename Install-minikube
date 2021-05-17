@@ -26,4 +26,18 @@
   sudo chmod 755 /usr/local/bin/minikube
 
 # to check if the minikube is installed:
-  minikube version
+   minikube version
+
+## Installing kubectl on client machine, here its the same virtual m/c
+# getiing the kubectl binary from google
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+    
+ # give executable permission for kubectl binary file
+   chmod +x ./kubectl
+ 
+ # move the kubectl binary file to /usr/local/bin/kubectl
+   sudo mv ./kubectl /usr/local/bin/kubectl
+ 
+ # to check if the kubectl verison is active on system use the below command
+    kubectl version
+ 
