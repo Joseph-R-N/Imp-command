@@ -1,0 +1,22 @@
+---
+
+-
+
+  name: 'Deploying nginx custom container remote'
+  hosts: cloud #(my group in /etc/ansible/hosts file was cloud)
+  become: true
+  tasks:
+     - name: 'start docker'
+       service:
+           name: 'docker'
+           state: started
+           enabled: yes
+
+     - name: 'Start the container'
+       docker_container:
+            name: "voteapp" #(name of the container, cannot have space)
+            image: "nelrajan/vote:1"
+            state: started
+            published_ports:
+               - "0.0.0.0:8090:80/tcp" #(the port in nginx image has 80 EXPOSE)
+               - "0.0.0.0:8090:80/udp"
