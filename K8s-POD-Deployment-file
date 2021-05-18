@@ -1,0 +1,44 @@
+# Deployment Template - Kubernetes PODS
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: services-payment
+  labels:
+    app: pay # need not be same as the labels mentioned below as this is for Deploymnet label. 
+    
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: payment
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: payment # should be same as selector labels above 
+        tier: web # should be same as selector labels above (more labels more control to group)
+    spec:
+      containers:
+      - name: tomcat
+        image: tomcat
+        ports:
+        - containerPort: 8080
+        resources:    # not mandatory if resource is not an issue
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+            
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+            
+
