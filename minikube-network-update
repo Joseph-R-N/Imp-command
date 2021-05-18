@@ -1,0 +1,10 @@
+sudo minikube delete --all
+rm -rf .minikube/
+minikube start --driver=none
+
+# Install conntrack whihc is a network application for minikube.
+sudo apt install conntrack -y
+
+sudo chown $USER $HOME/.kube/config && chmod 600 $HOME/.kube/config
+
+kubectl get node 
