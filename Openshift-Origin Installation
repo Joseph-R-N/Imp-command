@@ -1,22 +1,64 @@
-1 apt update
-2 apt install docker.io
-3 wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
-4 tar -xvzf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
-5 ls -alrt
-6 cd openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/
-7 ls -alrt
-8 oc
-9 echo $PATH
-10 cp oc /usr/local/bin/
-11 oc version
-12 cp kubectl /usr/local/bin/
-13 cd
-14 oc version
-15 which oc
-16 cd /etc/docker/
-17 ls -lart
-18 vi /etc/docker/daemon.json
-19 cat /etc/docker/daemon.json
-20 service docker restart
-21 ps -ef | grep docker
-22 oc cluster up --public-hostname=44.192.90.166
+How to download OpenShift
+
+First we need to download the latest OpenShift Origin file. As of this writing, that version number is 3.11.0. Go back to the terminal window and issue the command:
+  > wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+
+Once the file is downloaded, extract it with the command:
+  > tar xvzf openshift*.tar.gz
+
+Change into the newly-created directory with the command:
+  > cd openshift-origin-client-tools*/
+
+Move the kubectl and oc binaries with the command:
+  > sudo mv  oc kubectl  /usr/local/bin/
+
+Finally, make sure you can run the oc command with:
+  > oc version
+
+The command should report back:
+  oc v3.11.0+0cbc58b
+  kubernetes v1.11.0+d4cacc0
+  features: Basic-Auth GSSAPI Kerberos SPNEGO
+  Server https://127.0.0.1:8443
+  kubernetes v1.11.0+d4cacc0
+
+You're ready to continue on.
+Insecure registry and starting the cluster
+Before taking your first steps with OpenShift Origin, you need to configure it such that it can use an insecure registry. To do this, issue the command:
+cat << EOF | sudo tee /etc/docker/daemon.json
+{
+    "insecure-registries" : [ "172.30.0.0/16" ]
+}
+EOF
+
+Restart Docker with the command:
+  > sudo systemctl restart docker
+
+You can now start the server with the command:
+  > oc cluster up
+
+After the cluster is up, bring it back down with the command:
+  > oc cluster down
+
+Once that command completes, you need to then configure a file so that OC doesn't constantly redirect from your hosting server IP address to 127.0.0.1. 
+To do this, open the config file with the command:
+  > sudo vi ./openshift.local.clusterup/openshift-controller-manager/openshift-master.kubeconfig
+
+In that file, search for the line:
+server: https://127.0.0.1:8443
+Replace that line with:
+server: https://SERVER_IP:8443
+Where SERVER_IP is the IP address of the hosting server.
+Save and close the file. Bring the cluster back up with the command:
+  > oc cluster up --public-hostname=SERVER_IP
+Where SERVER_IP is the IP address of the hosting server.
+
+How to log in 
+Let's start with the command line interface for OpenShift Origin. To log on as a standard user, issue the command:
+  > oc login -u USERNAME -p PASSWORD
+Where USERNAME is a valid username on the server and PASSWORD is the password for said user. 
+
+To log on as the administrator, issue the command:
+  > oc login -u system:admin
+
+When you login as the system admin, you will have access to built-in projects, and can easily switch between them (Figure A).
