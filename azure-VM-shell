@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#ENV for Azure Resource Group and Virtual Machine Name
+AZURE_RG='myResourceGroup'
+AZURE_VM='linuxVM'
+
+clear
+echo ""
+echo "--------------------------------------------------------------------"
+echo " Enter your choice to Start/Stop/Restart the Azure Virtual Machine"
+echo "--------------------------------------------------------------------"
+echo ""
+echo "Please enter 1 to start the Virtual Machine"
+echo ""
+echo "Please enter 2 to stop the Virtual Machine"
+echo ""
+echo "Please enter 3 to Restart the Virtual Machine"
+echo ""
+echo -n "Please Enter your choice: "
+read choice
+echo ""
+if [ "$choice" == '1' ]
+    then
+        echo "Starting Virtual Machine"
+        az vm start -n "$AZURE_VM" -g "$AZURE_RG"
+elif [ "$choice" == '2' ]
+    then
+        echo "Stopping Virtual Machine"
+        az vm stop -n "$AZURE_VM" -g "$AZURE_RG"
+elif [ "$choice" == 3 ]
+    then
+        echo "Restarting Virtual Machine"
+        z vm restart -n "$AZURE_VM" -g "$AZURE_RG"
+else
+    echo "Existing without performing any action"
+fi
